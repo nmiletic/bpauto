@@ -1,0 +1,69 @@
+#!/usr/bin/python3
+
+import yaml
+import argparse
+from bpauto.bpauto import AutoBP
+
+def main():
+
+    parser = argparse.ArgumentParser(
+                 description='BP test automation.')
+    parser.add_argument('config', metavar='conf.yaml',
+               help='Configuration file in yaml.')
+    parser.add_argument('-i', '--tester-ip',
+               help='Tester management password.')
+    parser.add_argument('-l', '--login',
+               help='Tester management login username.')
+    parser.add_argument('-p', '--password',
+               help='Tester management password.')
+
+    args = parser.parse_args()
+
+#    c = Core(source_file=args.config, schema_files=["schema.yaml"])
+#    c.validate(raise_exception=True)
+
+    with open(args.config) as configfile:
+        conf = yaml.load(configfile)
+
+    if args.tester_ip:
+        conf['Connection']['Tester IP'] = args.tester_ip
+    if args.login:
+        conf['Connection']['Login'] = args.login
+    if args.password:
+        conf['Connection']['Password'] = args.password
+
+    autobp = AutoBP(conf)
+    if 'Network' in conf:
+        network = autobp.generate_network()
+        if 'Interfaces' in conf['Network']:
+            network.generate_interfaces()
+        if 'VLANs' in conf['Network']:
+            network.generate_vlans()
+        if 'IP Routers' in conf['Network']:
+            network.generate_ip_routers()
+        if 'IP Static Hosts' in conf['Network']:
+            network.generate_hosts()
+        network.save()
+    if 'Super Flows' in conf:
+        autobp.generate_superflows()
+    if 'Application Profiles' in conf:
+        autobp.generate_app_profiles()
+    if 'Test' in conf:
+        test = autobp.generate_test()
+        test.generate_components()
+        test.save()
+
+    if 'Test' in conf:
+        test.delete()
+    if 'Network' in conf:
+        network.delete()
+    if 'Application Profiles' in conf:
+        autobp.delete_app_profiles()
+    if 'Super Flows' in conf:
+        autobp.delete_superflows()
+
+    autobp.save()
+
+
+if __name__ == "__main__":
+    main()
