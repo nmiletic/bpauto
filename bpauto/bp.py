@@ -17,12 +17,26 @@ class TCLFiles(object):
     def pdelete(self, command):
         print(command, file=self._deletebuf)
 
+    def _add_comments(self, buf):
+        buf.seek(0)
+        lines = buf.readlines()
+        lines = [line.strip() for line in lines]
+
+        buf = StringIO()
+        for line in lines:
+            print(line, file=buf)
+            print("puts {{{}}}".format(line), file=buf)
+
+        return buf
+
     def save_create(self, prefix):
+        self._createbuf = self._add_comments(self._createbuf)
         filename = prefix + 'create.tcl'
         with open(filename, 'w') as createfile:
             createfile.write(self._createbuf.getvalue())
 
     def save_delete(self, prefix):
+        self._deletebuf = self._add_comments(self._deletebuf)
         filename = prefix + 'delete.tcl'
         with open(filename, 'w') as createfile:
             createfile.write(self._deletebuf.getvalue())
