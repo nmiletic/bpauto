@@ -31,6 +31,7 @@ class AutoTest(object):
         comp.configure('-rampDist.steadyBehavior', 'cycle')
         comp.configure('-rampDist.down', comp_conf['Ramp Down Duration'])
         comp.configure('-rampDist.downBehavior', 'full')
+        comp.configure('-rateDist.unlimited', 'true')
         comp.configure('-rampUpProfile.max', comp_conf['Max Sessions per sec'])
         comp.configure('-rampUpProfile.interval', '1')
         comp.configure('-rampUpProfile.min', '1')
