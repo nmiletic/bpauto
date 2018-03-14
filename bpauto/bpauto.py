@@ -210,7 +210,7 @@ class AutoBP(object):
         for superflow in self._conf['Super Flows']:
             sf = self._bps.create_superflow(self._prefix + superflow['Name'], superflow['Application'])
             if 'File Type' in superflow:
-                filename = self._gen_conf['Prefix'] + superflow['File Type'] + str(superflow['Transation Size'])
+                filename = '/tmp/' + self._gen_conf['Prefix'] + superflow['File Type'] + str(superflow['Transation Size'])
                 filename = filename.replace(" ", "_")
                 payload.generate_file(filename, superflow['Transation Size'], superflow['File Type'])
                 payload.upload_file(filename, upload_conf['Tester IP'], upload_conf['Login'], upload_conf['Password'])

@@ -31,13 +31,13 @@ class TCLFiles(object):
 
     def save_create(self, prefix):
         self._createbuf = self._add_comments(self._createbuf)
-        filename = prefix + 'create.tcl'
+        filename = '/tmp/' + prefix + 'create.tcl'
         with open(filename, 'w') as createfile:
             createfile.write(self._createbuf.getvalue())
 
     def save_delete(self, prefix):
         self._deletebuf = self._add_comments(self._deletebuf)
-        filename = prefix + 'delete.tcl'
+        filename = '/tmp/' + prefix + 'delete.tcl'
         with open(filename, 'w') as createfile:
             createfile.write(self._deletebuf.getvalue())
 
