@@ -1,5 +1,6 @@
 from itertools import repeat
 from paramiko import SSHClient
+import paramiko
 from scp import SCPClient
 
 class PayloadFile(object):
