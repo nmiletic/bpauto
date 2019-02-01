@@ -245,3 +245,11 @@ class NTPv4_TIMEOUT(SuperFlow):
 class CITRIX(SuperFlow):
     pass
 
+class YOUTUBE(SuperFlow):
+    pass
+
+class WEBEX(SuperFlow):
+    pass
+
+class NETFLIX(SuperFlow):
+    pass
